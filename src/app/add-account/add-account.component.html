@@ -1,0 +1,81 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="accountInfoForm">
+    <div class="mb-3">
+      <label>AccountHolder</label>
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="accountHolder"/>
+      </div>
+
+      <div
+        *ngIf="accountInfoForm.controls['accountHolder'].invalid && (accountInfoForm.controls['accountHolder'].dirty || accountInfoForm.controls['accountHolder'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="accountInfoForm.controls['accountHolder'].errors['required']">
+          AccountHolder is required.
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label>Amount</label>
+      <div class="input-group">
+        <input type="number" class="form-control" formControlName="amount" (keypress)="decimalFilter($event)"/>
+      </div>
+      <div *ngIf="accountInfoForm.controls['amount'].invalid && (accountInfoForm.controls['amount'].dirty || accountInfoForm.controls['amount'].touched)">
+        <div *ngIf="accountInfoForm.controls['amount'].errors['required']" class="alert alert-danger">
+          <label >
+          Amount is required.
+        </label>
+        </div>
+      </div>
+      <div *ngIf="maxValueCrossed" class="alert alert-danger">
+        <label>
+          Amount should in between 2 to 8 digit long.
+        </label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label>Date</label>
+      <div class="input-group">
+        <input type="date" class="form-control" formControlName="date" min="{{currentDate | date:'yyyy-MM-dd'}}"/>
+      </div>
+
+      <div
+        *ngIf="accountInfoForm.controls['date'].invalid && (accountInfoForm.controls['date'].dirty || accountInfoForm.controls['date'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="accountInfoForm.controls['date'].errors['required']">
+          Date is required.
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label>iban</label>
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="iban" required/>
+      </div>
+
+      <div
+        *ngIf="accountInfoForm.controls['iban'].invalid && (accountInfoForm.controls['iban'].dirty || accountInfoForm.controls['iban'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="accountInfoForm.controls['iban'].errors['required']">
+          IBAN is required.
+        </div>
+        <div *ngIf="accountInfoForm.controls['iban'].errors['iban']">
+          IBAN is invalid
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label>Note</label>
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="note"/>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="onSave()"
+    [disabled]="((accountInfoForm.invalid==true) || (maxValueCrossed==true))">Save</button>
+</div>

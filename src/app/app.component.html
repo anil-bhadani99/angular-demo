@@ -1,0 +1,33 @@
+<h1>Hello World</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">AccountHolder</th>
+      <th scope="col" (click)="sortBy('amount')">Amount</th>
+      <th scope="col" (click)="sortBy('date')">Date</th>
+      <th scope="col">Iban</th>
+      <th scope="col">Note</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of iBanData">
+      <th scope="row">{{data.index}}</th>
+      <td>{{data.accountHolder}}</td>
+      <td>{{data.amount | currency:'EUR' }}</td>
+      <td>{{data.date | date: 'dd.MM.yyyy'}}</td>
+      <td>{{data.iban | ibanFormatter}}</td>
+      <td>{{data.note}}</td>
+      <td (click)="onEditClick(data)">
+        <i class='fa fa-edit'></i>
+      </td>
+      <td (click)="onDeleteClick(data)">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button class="btn btn-primary" (click)="openModal()">addData</button>
